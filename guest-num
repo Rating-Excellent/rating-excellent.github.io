@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>猜数字游戏</title>
+    <style>
+        body {
+            font-family: Microsoft Yahei;
+            max-width: 450px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        .box{
+            border:1px solid #ccc;
+            padding:30px;
+            border-radius:10px;
+        }
+        input{
+            padding:8px;
+            width:180px;
+            font-size:16px;
+        }
+        button{
+            padding:8px 16px;
+            font-size:16px;
+            cursor:pointer;
+            margin:0 5px;
+        }
+        #tip{
+            font-size:18px;
+            margin-top:20px;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>🎮猜数字游戏</h2>
+    <p>我已经想好了一个 1~100 之间的整数，请你来猜！</p>
+
+    <input type="number" id="guessInput" placeholder="输入数字" min="1" max="100">
+    <button onclick="check()">提交猜测</button>
+    <button onclick="resetGame()">重新开始</button>
+
+    <div id="tip"></div>
+</div>
+
+<script>
+//生成1~100随机数
+let answer = Math.floor(Math.random() * 100) + 1;
+let count = 0;
+const tipDom = document.getElementById('tip');
+
+function check(){
+    const val = document.getElementById('guessInput').value;
+    let num = parseInt(val);
+
+    if(isNaN(num) || num <1 || num>100){
+        tipDom.innerText = "⚠️请输入1‑100之间有效的数字！";
+        return;
+    }
+    count++;
+    if(num < answer){
+        tipDom.innerText = `第${count}次猜测：你猜的 ${num}，太小了，请再大一点！`;
+    }else if(num > answer){
+        tipDom.innerText = `第${count}次猜测：你猜的 ${num}，太大了，请再小一点！`;
+    }else{
+        tipDom.innerText = `🎉恭喜！猜对了！答案就是${answer}，一共猜了${count}次！`;
+    }
+}
+
+function resetGame(){
+    answer = Math.floor(Math.random() * 100) + 1;
+    count = 0;
+    document.getElementById('guessInput').value = '';
+    tipDom.innerText = '';
+}
+</script>
+</body>
+</html>
